@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import * as store from '../../store';
+import * as fromStore from '../../store';
 import { Pizza } from '../../models/pizza.model';
 
 @Component({
@@ -31,9 +31,9 @@ import { Pizza } from '../../models/pizza.model';
 export class ProductsComponent implements OnInit {
   pizzas$: Observable<Pizza[]>;
 
-  constructor(private store: Store<store.ProductsState>) {}
+  constructor(private store: Store<fromStore.ProductsState>) {}
 
   ngOnInit() {
-    this.pizzas$ = this.store.select(store.getAllPizzas);
+    this.pizzas$ = this.store.select(fromStore.getAllPizzas);
   }
 }

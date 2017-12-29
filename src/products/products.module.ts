@@ -4,7 +4,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
-import { reducers } from './store';
+import { EffectsModule } from '@ngrx/effects';
+
+import { reducers, effects } from './store';
 
 // components
 import * as fromComponents from './components';
@@ -39,7 +41,8 @@ export const ROUTES: Routes = [
     RouterModule.forChild(ROUTES),
     // in the global state object this will create a 'products' key for the 'products' feature register with the
     // 'products' reducers
-    StoreModule.forFeature('products', reducers)
+    StoreModule.forFeature('products', reducers),
+    EffectsModule.forFeature(effects)
   ],
   providers: [...fromServices.services],
   declarations: [...fromContainers.containers, ...fromComponents.components],

@@ -123,3 +123,10 @@ export const reducer = (state = initialState, action: PizzasAction): PizzaState 
 
   return state;
 };
+
+// selectors: they return a portion of the state
+export const getPizzasLoading = (state: PizzaState) => state.loading;
+
+export const getPizzasLoaded = (state: PizzaState) => state.loaded;
+
+export const getPizzas = (state: PizzaState) => state.data;

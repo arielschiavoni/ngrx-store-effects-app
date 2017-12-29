@@ -37,6 +37,8 @@ export const ROUTES: Routes = [
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule.forChild(ROUTES),
+    // in the global state object this will create a 'products' key for the 'products' feature register with the
+    // 'products' reducers
     StoreModule.forFeature('products', reducers)
   ],
   providers: [...fromServices.services],

@@ -34,7 +34,7 @@ export class ProductsComponent implements OnInit {
   constructor(private store: Store<store.ProductsState>) {}
 
   ngOnInit() {
-    this.store.select<any>('products').subscribe(state => {
+    this.store.select(store.getAllPizzas).subscribe(state => {
       console.log(state);
     });
   }

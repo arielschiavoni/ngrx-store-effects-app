@@ -3,8 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { Routes, RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router-store';
 import { StoreModule, MetaReducer } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { reducers, CustomSerializer } from './store';
 
 // not used in production
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -13,12 +15,10 @@ import { storeFreeze } from 'ngrx-store-freeze';
 // this would be done dynamically with webpack for builds
 const environment = {
   development: true,
-  production: false,
+  production: false
 };
 
-export const metaReducers: MetaReducer<any>[] = !environment.production
-  ? [storeFreeze]
-  : [];
+export const metaReducers: MetaReducer<any>[] = !environment.production ? [storeFreeze] : [];
 
 // bootstrap
 import { AppComponent } from './containers/app/app.component';
@@ -28,8 +28,8 @@ export const ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'products' },
   {
     path: 'products',
-    loadChildren: '../products/products.module#ProductsModule',
-  },
+    loadChildren: '../products/products.module#ProductsModule'
+  }
 ];
 
 @NgModule({
@@ -37,11 +37,16 @@ export const ROUTES: Routes = [
     BrowserModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(ROUTES),
-    StoreModule.forRoot({}, { metaReducers }),
+    // here we initialize the root state which is an empty object
+    StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([]),
-    environment.development ? StoreDevtoolsModule.instrument() : [],
+    // connects angular router with the redux store
+    StoreRouterConnectingModule,
+    environment.development ? StoreDevtoolsModule.instrument() : []
   ],
+  // here we have to configure what RouterStateSerializer implementation we want to use
+  providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }],
   declarations: [AppComponent],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

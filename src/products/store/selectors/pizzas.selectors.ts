@@ -9,15 +9,15 @@ import { Pizza } from '../../models/pizza.model';
 export const getPizzaState = createSelector(feature.getProductsState, (state: feature.ProductsState) => state.pizzas);
 
 // more selectors composition
-export const getAllPizzasEntities = createSelector(getPizzaState, pizzasReducer.getPizzasEntities);
+export const getPizzaEntities = createSelector(getPizzaState, pizzasReducer.getPizzasEntities);
 
 export const getSelectedPizza = createSelector(
-  getAllPizzasEntities,
+  getPizzaEntities,
   rootStore.getRouterState,
   (entities, routerState): Pizza => routerState.state && entities[routerState.state.params.pizzaId]
 );
 
-export const getAllPizzas = createSelector(getAllPizzasEntities, entities =>
+export const getAllPizzas = createSelector(getPizzaEntities, entities =>
   Object.keys(entities).map(id => entities[parseInt(id, 10)])
 );
 

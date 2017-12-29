@@ -14,7 +14,7 @@ import * as productsStore from '../../store';
       class="product-item">
       <pizza-form
         [pizza]="pizza$ | async"
-        [toppings]="toppings"
+        [toppings]="toppings$ | async"
         (selected)="onSelect($event)"
         (create)="onCreate($event)"
         (update)="onUpdate($event)"
@@ -29,12 +29,15 @@ import * as productsStore from '../../store';
 export class ProductItemComponent implements OnInit {
   pizza$: Observable<Pizza>;
   visualise: Pizza;
-  toppings: Topping[];
+  toppings$: Observable<Topping[]>;
 
   constructor(private store: Store<productsStore.ProductsState>) {}
 
   ngOnInit() {
+    this.store.dispatch(new productsStore.LoadToppings());
+
     this.pizza$ = this.store.select(productsStore.getSelectedPizza);
+    this.toppings$ = this.store.select(productsStore.getAllToppings);
   }
 
   onSelect(event: number[]) {}

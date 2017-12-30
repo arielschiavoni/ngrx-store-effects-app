@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router-store';
 import { StoreModule, MetaReducer } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { reducers, CustomSerializer } from './store';
+import { reducers, effects, CustomSerializer } from './store';
 
 // not used in production
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -39,7 +39,7 @@ export const ROUTES: Routes = [
     RouterModule.forRoot(ROUTES),
     // here we initialize the root state which is an empty object
     StoreModule.forRoot(reducers, { metaReducers }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot(effects),
     // connects angular router with the redux store
     StoreRouterConnectingModule,
     environment.development ? StoreDevtoolsModule.instrument() : []

@@ -4,6 +4,7 @@ import { Pizza } from '../../models/pizza.model';
 import { Topping } from '../../models/topping.model';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { tap } from 'rxjs/operators';
 import * as productsStore from '../../store';
 
 @Component({
@@ -34,7 +35,18 @@ export class ProductItemComponent implements OnInit {
   constructor(private store: Store<productsStore.ProductsState>) {}
 
   ngOnInit() {
-    this.pizza$ = this.store.select(productsStore.getSelectedPizza);
+    this.pizza$ = this.store.select(productsStore.getSelectedPizza).pipe(
+      // here we want to intercept a pizza and if it is not a "new" pizza we want to trigger a VisualiseToppings action
+      // to render them.
+      tap((pizza: Pizza = null) => {
+        // /products/new -> pizza === null -> toppings = []
+        // /products/1 -> pizza === { id: 1, name: "peperoni", toppings: [{ id: 5, name: "olive" }] } -> toppings = [ 5 ]
+        const pizzaExists = !!(pizza && pizza.toppings);
+        const toppings = pizzaExists ? pizza.toppings.map(t => t.id) : [];
+
+        this.store.dispatch(new productsStore.VisualiseToppings(toppings));
+      })
+    );
     this.toppings$ = this.store.select(productsStore.getAllToppings);
     this.visualise$ = this.store.select(productsStore.getVisualisedPizza);
   }

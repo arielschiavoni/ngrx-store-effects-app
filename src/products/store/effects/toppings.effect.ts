@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Effect, Actions } from '@ngrx/effects';
-
+import { switchMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
-import { map, switchMap, catchError } from 'rxjs/operators';
 
-import * as toppingsActions from '../actions';
+import * as toppingsActions from '../actions/toppings.action';
 import * as services from '../../services';
 
 @Injectable()

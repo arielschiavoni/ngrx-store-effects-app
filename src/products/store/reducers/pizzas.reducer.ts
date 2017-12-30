@@ -54,7 +54,7 @@ export const reducer = (state: PizzaState = initialState, action: PizzasAction):
 };
 
 // selectors: they return a portion of the state
-export const getPizzasEntities = (state: PizzaState) => state.entities;
+export const getPizzaEntities = (state: PizzaState) => state.entities;
 
 export const getPizzasLoading = (state: PizzaState) => state.loading;
 

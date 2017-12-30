@@ -20,7 +20,7 @@ import * as productsStore from '../../store';
         (update)="onUpdate($event)"
         (remove)="onRemove($event)">
         <pizza-display
-          [pizza]="visualise">
+          [pizza]="visualise$ | async">
         </pizza-display>
       </pizza-form>
     </div>
@@ -28,7 +28,7 @@ import * as productsStore from '../../store';
 })
 export class ProductItemComponent implements OnInit {
   pizza$: Observable<Pizza>;
-  visualise: Pizza;
+  visualise$: Observable<Pizza>;
   toppings$: Observable<Topping[]>;
 
   constructor(private store: Store<productsStore.ProductsState>) {}
@@ -38,9 +38,12 @@ export class ProductItemComponent implements OnInit {
 
     this.pizza$ = this.store.select(productsStore.getSelectedPizza);
     this.toppings$ = this.store.select(productsStore.getAllToppings);
+    this.visualise$ = this.store.select(productsStore.getVisualisedPizza);
   }
 
-  onSelect(event: number[]) {}
+  onSelect(event: number[]) {
+    this.store.dispatch(new productsStore.VisualiseToppings(event));
+  }
 
   onCreate(event: Pizza) {}
 

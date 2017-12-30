@@ -71,4 +71,10 @@ export class PizzaEffects {
         );
     })
   );
+
+  // here we listen multiple actions and in both cases we redirect to the /products page
+  @Effect()
+  handlePizzaSuccess$ = this.actions$
+    .ofType(pizzaActions.UPDATE_PIZZA_SUCCESS, pizzaActions.REMOVE_PIZZA_SUCCESS)
+    .pipe(map(() => new routerActions.Go({ path: ['/products'] })));
 }

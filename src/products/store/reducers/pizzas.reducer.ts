@@ -51,7 +51,8 @@ export const reducer = (state: PizzaState = initialState, action: pizzaActions.P
       };
     }
 
-    case pizzaActions.CREATE_PIZZA_SUCCESS: {
+    case pizzaActions.CREATE_PIZZA_SUCCESS:
+    case pizzaActions.UPDATE_PIZZA_SUCCESS: {
       const pizza = action.payload;
 
       return {

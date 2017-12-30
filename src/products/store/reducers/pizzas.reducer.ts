@@ -60,6 +60,16 @@ export const reducer = (state: PizzaState = initialState, action: pizzaActions.P
         entities: { ...state.entities, [pizza.id]: pizza }
       };
     }
+
+    case pizzaActions.REMOVE_PIZZA_SUCCESS: {
+      const pizza = action.payload;
+      const { [pizza.id]: removed, ...entities } = state.entities;
+
+      return {
+        ...state,
+        entities
+      };
+    }
   }
 
   return state;
